@@ -8,6 +8,8 @@
 
 All instructions can be found at [draculatheme.com/google-colab](https://draculatheme.com/google-colab).
 
+Direct Installation link [stylus-google-colab-dracula](https://userstyles.world/api/style/29907.user.css) [Requires [Stylus Extension for Browser](https://add0n.com/stylus.html)]
+
 ## Team
 
 This theme is maintained by the following person(s) and a bunch of [awesome contributors](https://github.com/dracula/google-colab/graphs/contributors).
