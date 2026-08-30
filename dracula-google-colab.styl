@@ -1,0 +1,706 @@
+/* ==UserStyle==
+@name           Google Colab Dracula
+@namespace      github.com/dracula/google-colab
+@version        1.0.0
+@description    🧛🏻‍♂️ Official-style Dracula theme for Google Colab
+@author         Dracula
+@license        MIT
+@preprocessor   stylus
+==/UserStyle== */
+@-moz-document domain("colab.research.google.com"), domain("colab.googleusercontent.com") {
+    /* ============================================================ */
+    /* Dracula palette */
+    /* ============================================================ */
+    $bg = #282a36;
+    $current-line = #44475a;
+    $fg = #f8f8f2;
+    $comment = #6272a4;
+    $cyan = #8be9fd;
+    $green = #50fa7b;
+    $orange = #ffb86c;
+    $pink = #ff79c6;
+    $purple = #bd93f9;
+    $yellow = #f1fa8c;
+    $red = #ff5555; /* ============================================================ */
+
+    /* CSS custom property overrides (primary theming entrypoint) */
+    /* ============================================================ */
+    /* Colab drives nearly its entire UI (including Material `md-*` */
+    /* web components) through the `--colab-*` custom properties defined */
+    /* on `html`. Re-mapping these is the most robust way to retheme. */
+    html {
+        /* Surfaces */
+        --colab-primary-surface-color: $bg;
+        --colab-secondary-surface-color: $current-line;
+        --colab-surface-container-color: $bg;
+        --colab-surface-container-high-color: #343746;
+        --colab-surface-container-highest-color: $current-line;
+        --colab-surface-container-low-color: #21222c;
+        --colab-highlighted-surface-color: rgba($fg, 0.06); /* Text / foreground */
+        --colab-primary-text-color: $fg;
+        --colab-primary-text-color-rgb: 248, 248, 242;
+        --colab-secondary-text-color: $comment;
+        --colab-icon-color: $comment; /* Borders / dividers */
+        --colab-border-color: #3e4150;
+        --colab-border-color-rgb: 62, 65, 80;
+        --colab-bold-border-color: #565a6e;
+        --colab-soft-border-color: rgba(62, 65, 80, 0.4);
+        --colab-divider-color: #3e4150;
+        --colab-disabled-border-color: rgba(248, 248, 242, 0.12);
+        --colab-disabled-text-color: rgba(248, 248, 242, 0.38); /* Accent / primary (Dracula purple) */
+        --colab-primary-color: $purple;
+        --colab-primary-color-rgb: 189, 147, 249;
+        --colab-on-primary-color: $bg;
+        --colab-primary-container-color: $current-line;
+        --colab-on-primary-container-color: $fg;
+        --colab-secondary-container-color: $current-line;
+        --colab-on-secondary-container-color: $cyan;
+        --colab-anchor-color: $cyan;
+        --colab-focus-ring-color: $purple; /* Semantic */
+        --colab-error-color: $red;
+        --colab-error-container-color: #5b2134;
+        --colab-on-error-container-color: $red;
+        --colab-warning-color: $orange;
+        --colab-warning-container-color: #5b3a20;
+        --colab-on-warning-container-color: $orange;
+        --colab-success-color: $green; /* Edits / highlights */
+        --colab-highlight-color: $yellow;
+        --colab-highlight-color-rgb: 241, 250, 140;
+        --colab-soft-highlight-color: rgba(241, 250, 140, 0.24);
+        --colab-comment-highlight-color: $yellow;
+        --colab-debugger-highlight-color: #4b2a32;
+        --colab-smartpaste-highlight-color: rgba(255, 184, 108, 0.5);
+        --colab-debugger-breakpoint-color: $red; /* Diff editor */
+        --colab-diff-editor-background: $bg;
+        --colab-composer-diff-background: #1f3d2b; /* Inverse */
+        --colab-inverse-primary-color: $purple;
+        --colab-inverse-surface-color: $bg;
+        --colab-inverse-on-surface-color: $fg; /* Editor */
+        --colab-editor-background: $bg; /* Scrollbars */
+        --colab-scrollbar-color: rgba(248, 248, 242, 0.24);
+        --colab-scrollbar-hover-color: rgba(248, 248, 242, 0.48);
+        --colab-scrollbar-active-color: rgba(248, 248, 242, 0.48); /* Logos (kept from light/dark context) */
+        --colab-logo-dark: $green;
+        --colab-logo-light: $yellow;
+    }
+
+    /* Output frames are sandboxed iframes on a separate origin domain that */
+    /* re-declare their own variables; force the dark surface there too. */
+    html[theme='dark'] {
+        --colab-primary-surface-color: $bg;
+        --colab-secondary-surface-color: $current-line;
+        --colab-primary-text-color: $fg;
+        --colab-secondary-text-color: $comment;
+        --colab-border-color: #3e4150;
+        --colab-bold-border-color: #565a6e;
+        --colab-highlighted-surface-color: rgba($fg, 0.06);
+        --colab-anchor-color: $cyan;
+    }
+
+    /* ============================================================ */
+    /* ANSI terminal / console colors (streams, rich output) */
+    /* ============================================================ */
+    html {
+        --ansi-black: #21222c;
+        --ansi-red: $red;
+        --ansi-green: $green;
+        --ansi-yellow: $yellow;
+        --ansi-blue: $purple;
+        --ansi-magenta: $pink;
+        --ansi-cyan: $cyan;
+        --ansi-gray: $fg;
+        --ansi-bright-black: $comment;
+        --ansi-bright-red: $red;
+        --ansi-bright-green: $green;
+        --ansi-bright-yellow: $yellow;
+        --ansi-bright-blue: $purple;
+        --ansi-bright-magenta: $pink;
+        --ansi-bright-cyan: $cyan;
+        --ansi-bright-gray: $fg;
+    }
+
+    /* ============================================================ */
+    /* Monaco / editor theming (VS Code variables + token classes) */
+    /* ============================================================ */
+    .monaco-editor {
+        --vscode-editor-background: $bg !important;
+        --vscode-editor-foreground: $fg !important;
+        --vscode-editorLineNumber-foreground: $comment !important;
+        --vscode-editorLineNumber-activeForeground: $fg !important;
+        --vscode-editorCursor-foreground: $fg !important;
+        --vscode-editor-selectionBackground: $current-line !important;
+        --vscode-editor-inactiveSelectionBackground: $current-line !important;
+        --vscode-editor-selectionHighlightBackground: rgba($current-line, 0.5) !important;
+        --vscode-editor-lineHighlightBackground: $current-line !important;
+        --vscode-editor-lineHighlightBorder: $current-line !important;
+        --vscode-editorWidget-background: $current-line !important;
+        --vscode-editorWidget-border: #565a6e !important;
+        --vscode-editorWidget-foreground: $fg !important;
+        --vscode-editorHoverWidget-background: $current-line !important;
+        --vscode-editorHoverWidget-border: #565a6e !important;
+        --vscode-editorSuggestWidget-background: $current-line !important;
+        --vscode-editorSuggestWidget-border: #565a6e !important;
+        --vscode-editorSuggestWidget-selectedBackground: $bg !important;
+        --vscode-editorIndentGuide-background: #3e4150 !important;
+        --vscode-editorIndentGuide-activeBackground: #565a6e !important;
+        --vscode-editorGutter-background: $bg !important;
+        --vscode-editorRuler-foreground: #3e4150 !important;
+        --vscode-editorWhitespace-foreground: #3e4150 !important;
+        --vscode-editorError-foreground: $red !important;
+        --vscode-editorWarning-foreground: $orange !important;
+        --vscode-editorInfo-foreground: $cyan !important;
+        --vscode-editorHint-foreground: $comment !important;
+        --vscode-editor-findMatchBackground: rgba($yellow, 0.2) !important;
+        --vscode-editor-findMatchHighlightBackground: rgba($yellow, 0.3) !important;
+        --vscode-editorBracketMatch-background: rgba($cyan, 0.08) !important;
+        --vscode-editorBracketMatch-border: $cyan !important;
+        --vscode-editorCodeLens-foreground: $comment !important;
+        --vscode-editorLink-activeForeground: $cyan !important;
+        --vscode-editorInlayHint-foreground: $comment !important;
+        --vscode-editorInlayHint-background: #343746 !important;
+        --vscode-editorStickyScroll-background: $bg !important;
+        --vscode-focusBorder: $purple !important;
+        --vscode-widget-shadow: rgba(0, 0, 0, 0.5) !important;
+    }
+
+    /* Monaco applies default-dark token colors via `.mtk*` classes that are */
+    /* injected into a `<style class="monaco-colors">` block at runtime. These */
+    /* overrides win because our stylesheet load order / `!important` beats the */
+    /* inline definition. */
+    /* Monaco token classes. Colab's "Default Dark" theme assigns each syntax */
+    /* element an `.mtkNN` class. The mapping below was verified against the */
+    /* rendered notebook (mtk19 -> `# comment`, mtk10/20 -> `def`/`import`, */
+    /* mtk5 -> `"string"`, mtk6 -> number, mtk17 -> function name, mtk9 -> `None`) */
+    /* and translated to the equivalent Dracula Python semantic color. */
+    .monaco-editor {
+        .mtk1 { /* default text / variables */
+            color: $fg !important;
+        } /* default text / variables */
+
+        .mtk2 { /* default (normalized) */
+            color: $fg !important;
+        } /* default (normalized) */
+
+        .mtk3 { /* string interpolation / escape */
+            color: $yellow !important;
+        } /* string interpolation / escape */
+
+        .mtk4 { /* def params: X, y, num_features_to_select */
+            color: $orange !important;
+        } /* def params: X, y, num_features_to_select */
+
+        .mtk5 { /* string */
+            color: $yellow !important;
+        } /* string */
+
+        .mtk6 { /* number */
+            color: $purple !important;
+        } /* number */
+
+        .mtk7 { /* number (alt) */
+            color: $purple !important;
+        } /* number (alt) */
+
+        .mtk8 { /* comment (decorator separators) */
+            color: $comment !important;
+        } /* comment (decorator separators) */
+
+        .mtk9 { /* constant (None, True, False) */
+            color: $purple !important;
+        } /* constant (None, True, False) */
+
+        .mtk10 { /* keyword (def, class) */
+            color: $pink !important;
+        } /* keyword (def, class) */
+
+        .mtk11 { /* identifier */
+            color: $fg !important;
+        } /* identifier */
+
+        .mtk12 { /* punctuation / meta */
+            color: $comment !important;
+        } /* punctuation / meta */
+
+        .mtk13 { /* attribute / decorator */
+            color: $orange !important;
+        } /* attribute / decorator */
+
+        .mtk14 { /* punctuation / brackets: , : ( ) [ ] { } */
+            color: $fg !important;
+        } /* punctuation / brackets: , : ( ) [ ] { } */
+
+        .mtk15 { /* comment (alt) */
+            color: $comment !important;
+        } /* comment (alt) */
+
+        .mtk16 { /* builtin type / constant */
+            color: $cyan !important;
+        } /* builtin type / constant */
+
+        .mtk17 { /* function / method call */
+            color: $green !important;
+        } /* function / method call */
+
+        .mtk18 { /* invalid / error */
+            color: $red !important;
+        } /* invalid / error */
+
+        .mtk19 { /* comment (base) — see override below for in/not */
+            color: $comment !important;
+        } /* comment (base) — see override below for in/not */
+
+        .mtk20 { /* keyword (import, from, if, for, return) */
+            color: $pink !important;
+        } /* keyword (import, from, if, for, return) */
+
+        .mtk21 { /* keyword (control) */
+            color: $pink !important;
+        } /* keyword (control) */
+
+        .mtk22 { /* attribute / property */
+            color: $orange !important;
+        } /* attribute / property */
+
+        .mtk23 { /* invalid */
+            color: $red !important;
+        } /* invalid */
+
+        .mtk24 { /* type parameter */
+            color: $cyan !important;
+        } /* type parameter */
+
+        .mtk25 { /* punctuation */
+            color: $comment !important;
+        } /* punctuation */
+
+        .mtk26 { /* builtin */
+            color: $cyan !important;
+        } /* builtin */
+
+        .mtk27 { /* constant */
+            color: $purple !important;
+        } /* constant */
+
+        .mtk28 { /* number / constant */
+            color: $purple !important;
+        } /* number / constant */
+
+        .mtk29 { /* error */
+            color: $red !important;
+        } /* error */
+
+        .mtk30 { /* variable / parameter */
+            color: $cyan !important;
+        } /* variable / parameter */
+
+        .mtk31 { /* object / class */
+            color: $green !important;
+        } /* object / class */
+
+        .mtk32 { /* builtin */
+            color: $cyan !important;
+        } /* builtin */
+
+        .mtk33 { /* constant */
+            color: $purple !important;
+        } /* constant */
+
+        .mtki {
+            font-style: italic !important;
+        }
+
+        .mtkb {
+            font-weight: bold !important;
+        }
+
+        .mtku {
+            text-decoration: underline !important;
+        }
+
+        .mtks {
+            text-decoration: line-through !important;
+        }
+    }
+
+    // Operators → pink (except `.`). Monaco has no dedicated operator token;
+    // `= + - * / % < > & | ^ ~ !` are emitted as `mtk1` text (often as
+    // `&nbsp;=&nbsp;` or `&nbsp;-&nbsp;` isolated spans) or as `mtk14` punctuation.
+    // Best-effort: recolor bracket-punctuation that is operator-like and make
+    // isolated operator spans pink via the `mtk1` whitespace-wrapped hack.
+    // NOTE: call-site `foo=bar` where `foo=bar` is one `mtk1` span (e.g.
+    // `num_features_to_select=X_train.shape`) cannot be split by pure CSS —
+    // the whole span would turn pink/orange. The `def` params above (mtk4) are
+    // the only perfectly isolatable case. Call-site `key=` stays $fg by design
+    // to avoid over-coloring the RHS value per your “only the mentioned part”
+    // requirement.
+    .monaco-editor {
+        // `=` `:` etc inside `mtk14` when they are operators — keep `, :` as fg
+        // but make comparison operators pink via the view-line position hack below
+    }
+
+    // FIX: Colab's Default Dark tokenizer conflates `not`/`in` with comments —
+    // both use `.mtk19` (originally #82c6ff). A pure class map would make `not`
+    // gray. Comments are the first *non-whitespace* token on a line (col 0 or
+    // indented), while `in`/`not` as keywords appear mid-line (3rd+ token).
+    // Use position to split: first two children stay comment-gray (covers
+    // ` # comment` and `    # indented comment`), everything else becomes pink.
+    .monaco-editor .view-line > span > .mtk19:not(:first-child):not(:nth-child(2)) {
+        color: $pink !important;
+    }
+
+    // Restore bracket-pair colorization. Colab's Default Dark theme colors
+    // brackets via `.bracket-highlighting-*` classes; the `!important` in the
+    // `.mtk14` rule above would otherwise flatten them. Re-declare with a
+    // Dracula rainbow and `!important` so nesting is visible again.
+    .monaco-editor {
+        .bracket-highlighting-0 { /* outermost */
+            color: $fg !important;
+        } /* outermost */
+
+        .bracket-highlighting-1 {
+            color: $pink !important;
+        }
+
+        .bracket-highlighting-2 {
+            color: $cyan !important;
+        }
+
+        .bracket-highlighting-3 {
+            color: $green !important;
+        }
+
+        .bracket-highlighting-4 {
+            color: $purple !important;
+        }
+
+        .bracket-highlighting-5 {
+            color: $orange !important;
+        }
+
+        .bracket-highlighting-6 {
+            color: $fg !important;
+        }
+
+        .bracket-highlighting-7 {
+            color: $pink !important;
+        }
+
+        .bracket-highlighting-8 {
+            color: $cyan !important;
+        }
+
+        .bracket-highlighting-9 {
+            color: $green !important;
+        }
+    }
+
+    // Gutter spacing — breathing room between line numbers and code.
+    // FIX: guides (`.core-guide`, `.core-guide-indent`) live directly inside
+    // `.lines-content` with JS-calculated `left`. Padding `.view-line` or
+    // `.view-lines`/`.view-overlays` alone shifts text but leaves those guides
+    // behind (blank-line guides detach). Only pad the shared parent
+    // `.lines-content` (and the scrollable wrapper) so text + guides move together.
+    .monaco-editor {
+        .margin-view-overlays .line-numbers {
+            padding-right: 14px !important;
+        }
+
+        .lines-content {
+            padding-left: 12px !important;
+        }
+
+        // Keep the original overflow-guard targets (covers Colab's exact DOM)
+        .overflow-guard > div:nth-child(1) {
+            padding-right: 6px !important;
+            margin-right: 2px !important;
+        }
+
+        .overflow-guard > .monaco-scrollable-element.editor-scrollable {
+            padding-left: 6px !important;
+        }
+    }
+
+    // Generic cell-agnostic version (covers #cell-XXXX too)
+    div[id^='cell-'] .overflow-guard > div:nth-child(1), .codecell-input-output .overflow-guard > div:nth-child(1) {
+        padding-right: 6px !important;
+        margin-right: 2px !important;
+    }
+
+    div[id^='cell-'] .overflow-guard > div.monaco-scrollable-element, .codecell-input-output .overflow-guard > div.monaco-scrollable-element {
+        padding-left: 6px !important;
+    }
+
+    div[id^='cell-'] .monaco-editor .lines-content, .codecell-input-output .monaco-editor .lines-content {
+        padding-left: 12px !important;
+    }
+
+    // Current line highlighting — Dracula #44475A wash on the active line
+    // content only. Gutter is left transparent so the bold active line number
+    // doesn't sit on a highlight block (looks heavy/bold+highlight).
+    .monaco-editor {
+        .view-overlays .current-line {
+            background: $current-line !important;
+            border: none !important;
+            border-left: 2px solid transparent !important;
+        }
+
+        .margin-view-overlays .current-line-margin, .margin-view-overlays .current-line-margin-both, .margin-view-overlays .current-line {
+            background: transparent !important;
+            border: none !important;
+        }
+
+        .view-overlays .current-line-exact {
+            background: $current-line !important;
+        }
+    }
+
+    /* ============================================================ */
+    /* Structural chrome / layout surfaces */
+    /* ============================================================ */
+    html, body {
+        background-color: $bg !important;
+        color: $fg !important;
+    }
+
+    /* Notebook content background (the scrollable canvas behind cells) */
+    .notebook-content-background, .notebook-content {
+        background-color: $bg !important;
+    }
+
+    .notebook-scrolling-horizontal-container, .notebook-scrolling-horizontal {
+        background-color: $bg !important;
+    }
+
+    /* Left pane / file browser / TOC */
+    colab-left-pane, .colab-left-pane, .pane-container {
+        background-color: $bg !important;
+    }
+
+    /* Top toolbar */
+    colab-notebook-toolbar, #top-toolbar {
+        background-color: $bg !important;
+    }
+
+    colab-status-bar, .colab-status-bar {
+        background-color: $current-line !important;
+    }
+
+    /* Tab header / layout container */
+    colab-tab-header, .tab-header, colab-tab-layout-container {
+        background-color: $bg !important;
+    }
+
+    /* ============================================================ */
+    /* Cells */
+    /* ============================================================ */
+    .cell {
+        background-color: transparent !important; /* Active / focused cell selection highlight */
+
+        &.focused {
+            .cell-mask {
+                background-color: rgba($fg, 0.03) !important;
+            }
+        }
+
+        &.selected .cell-mask {
+            background-color: rgba($cyan, 0.04) !important;
+        }
+    }
+
+    .cell-contents {
+        background-color: transparent !important;
+    }
+
+    /* Code cell gutter & run controls */
+    .cell-gutter {
+        background-color: transparent !important;
+    }
+
+    colab-run-button {
+        .cell-execution {
+            background-color: transparent !important;
+
+            .cell-execution-indicator circle {
+                fill: $current-line !important;
+            }
+
+            #run-button {
+                color: $green !important;
+            }
+
+            &.focused, &:hover {
+                .cell-execution-indicator circle {
+                    fill: $purple !important;
+                }
+
+                #run-button {
+                    color: $purple !important;
+                }
+            }
+        }
+    }
+
+    /* Input area surrounding the Monaco editor */
+    .inputarea.code {
+        background-color: $bg !important;
+    }
+
+    .codecell-input-output {
+        background-color: $bg !important;
+    }
+
+    /* Cell toolbar (gutter/hover actions) */
+    colab-cell-toolbar, .cell-toolbar {
+        color: $comment !important;
+    }
+
+    /* ============================================================ */
+    /* Markdown / text cells */
+    /* ============================================================ */
+    .markdown {
+        h1, h2, h3, h4, h5, h6 {
+            color: $purple !important;
+        }
+
+        h2 {
+            color: $pink !important;
+        }
+
+        h3 {
+            color: $green !important;
+        }
+
+        h4 {
+            color: $cyan !important;
+        }
+
+        p, li, span, div {
+            color: $fg !important;
+        }
+
+        a {
+            color: $cyan !important;
+        }
+
+        code {
+            color: $yellow !important;
+            background-color: $current-line !important;
+        }
+
+        pre {
+            background-color: $current-line !important;
+
+            code {
+                color: $fg !important;
+                background-color: transparent !important;
+            }
+        }
+
+        blockquote {
+            border-left: 3px solid $purple !important;
+            background-color: rgba($current-line, 0.4) !important;
+            color: $comment !important;
+        }
+
+        ul li, ol li {
+            color: $fg !important;
+        }
+
+        hr {
+            border-color: $current-line !important;
+        }
+
+        strong {
+            color: $orange !important;
+        }
+
+        em {
+            color: $green !important;
+        }
+
+        table {
+            border-color: $current-line !important;
+
+            th {
+                color: $purple !important;
+                background-color: $current-line !important;
+            }
+
+            td {
+                color: $fg !important;
+            }
+        }
+    }
+
+    .text-cell-section-header {
+        color: $fg !important;
+    }
+
+    /* ============================================================ */
+    /* Outputs & DataFrames */
+    /* ============================================================ */
+    .outputview, .output, .output-content {
+        background-color: $bg !important;
+        color: $fg !important;
+    }
+
+    .output-header {
+        color: $comment !important;
+    }
+
+    /* DataFrame tables (rendered in the output iframe) */
+    table.dataframe, .output_markdown table, .output-content table {
+        thead {
+            border-bottom: 1px solid $current-line !important;
+
+            th {
+                color: $purple !important;
+            }
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: $current-line !important;
+        }
+
+        tbody tr:hover {
+            background-color: rgba($cyan, 0.08) !important;
+        }
+
+        td, th {
+            color: $fg !important;
+            border-color: $current-line !important;
+        }
+    }
+
+    /* Streams / stdout / stderr */
+    .stream, .output_text, .output_text pre {
+        color: $fg !important;
+    }
+
+    .output-error {
+        color: $red !important;
+
+        pre {
+            color: $red !important;
+        }
+    }
+
+    /* ============================================================ */
+    /* Scrollbars (webkit, matching Dracula) */
+    /* ============================================================ */
+    ::-webkit-scrollbar-thumb {
+        background-color: $current-line !important;
+
+        &:hover {
+            background-color: $comment !important;
+        }
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: $bg !important;
+    }
+
+    ::-webkit-scrollbar-corner {
+        background-color: $bg !important;
+    }
+}
